@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "accounts.Trader"
+
 
 # Application definition
 
@@ -38,10 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trade',
-    'trader',
+    'accounts',
     'rest_framework',
     'corsheaders',
-    'phonenumber_field'
+    'phonenumber_field',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [

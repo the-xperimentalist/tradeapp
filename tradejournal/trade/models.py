@@ -1,5 +1,21 @@
 from django.db import models
-from trader.models import Trader
+from accounts.models import Trader
+
+
+class TradeSheet(models.Model):
+    """
+    Keep a note of trade sheets added with their specific times
+    """
+    UPLOADED_BROKERS = [
+        [0, "ZERODHA"],
+        [1, "ANGEL"],
+        [2, "UPSTOX"],
+        [3, "OTHERS"]
+    ]
+    uploaded_at = models.DateTimeField()
+    sheet_name = models.CharField(max_length=255, blank=False, null=False)
+    uploaded_by = models.ForeignKey(Trader, on_delete=models.CASCADE, related_name="sheet_uploader")
+    upload_type = models.IntegerField(default=3, choices=UPLOADED_BROKERS)
 
 
 class Trade(models.Model):
@@ -14,3 +30,9 @@ class Trade(models.Model):
     trade_in = models.DateTimeField()
     trade_out = models.DateTimeField()
     exec_trader = models.ForeignKey(Trader, on_delete=models.CASCADE, related_name="trader")
+    related_trade_sheet = models.ForeignKey(TradeSheet, on_delete=models.SET_NULL, null=True, related_name="sheet")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ("-created_at", )
