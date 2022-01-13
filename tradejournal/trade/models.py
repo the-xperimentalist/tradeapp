@@ -12,10 +12,13 @@ class TradeSheet(models.Model):
         [2, "UPSTOX"],
         [3, "OTHERS"]
     ]
-    uploaded_at = models.DateTimeField()
+    uploaded_at = models.DateTimeField(auto_now=True)
     sheet_name = models.CharField(max_length=255, blank=False, null=False)
     uploaded_by = models.ForeignKey(Trader, on_delete=models.CASCADE, related_name="sheet_uploader")
     upload_type = models.IntegerField(default=3, choices=UPLOADED_BROKERS)
+
+    class Meta:
+        ordering = ("-uploaded_at", )
 
 
 class Trade(models.Model):

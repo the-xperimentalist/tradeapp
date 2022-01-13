@@ -77,6 +77,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tradejournal.wsgi.application'
 
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'accounts.jwt.JWTAuthentication'
+    ]
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
