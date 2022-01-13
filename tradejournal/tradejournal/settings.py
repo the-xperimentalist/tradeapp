@@ -80,7 +80,8 @@ WSGI_APPLICATION = 'tradejournal.wsgi.application'
 REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'accounts.jwt.JWTAuthentication'
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS': "rest_framework.pagination.LimitOffsetPagination",
 }
 
 
