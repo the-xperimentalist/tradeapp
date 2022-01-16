@@ -21,6 +21,14 @@ class TradeSheet(models.Model):
         ordering = ("-uploaded_at", )
 
 
+class TradeItem(models.Model):
+    """
+    """
+    symbol = models.CharField(max_length=8, null=False)
+    quantity = models.IntegerField()
+    price = models.IntegerField()
+
+
 class Trade(models.Model):
     """
     The model contains the details for the trade #TODO: Figure the case of multiple trade details from different places
@@ -29,21 +37,23 @@ class Trade(models.Model):
     :field trade_out: The time when trade ended
     :field exec_trader: Trader who executed the trade
     """
+    NSE = 0
+    BSE = 1
     EXCHANGES_LIST = [
-        [0, "NSE"],
-        [1, "BSE"]
+        [NSE, "NSE"],
+        [BSE, "BSE"]
     ]
+
+    BUY = 0
+    SELL = 1
     TRADE_TYPES = [
-        [0, "BUY"],
-        [1, "SELL"]
+        [BUY, "BUY"],
+        [SELL, "SELL"]
     ]
     exchange = models.IntegerField(choices=EXCHANGES_LIST)
-    symbol = models.CharField(max_length=8, null=False)
-    in_time = models.DateTimeField()
-    out_time = models.DateTimeField()
+    time = models.DateTimeField()
     trade_type = models.IntegerField(choices=TRADE_TYPES)
-    quantity = models.IntegerField()
-    price = models.IntegerField()
+    trade_item = models.ForeignKey(TradeItem, on_delete=models.CASCADE)
     exec_trader = models.ForeignKey(Trader, on_delete=models.CASCADE, related_name="trader")
     related_trade_sheet = models.ForeignKey(TradeSheet, on_delete=models.SET_NULL, null=True, related_name="sheet")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -51,3 +61,15 @@ class Trade(models.Model):
 
     class Meta:
         ordering = ("-created_at", )
+
+
+class PortfolioStatus(models.Model):
+    """
+    The model contains the details for the portfolio status at a given point of time
+    """
+    related_trader = models.ForeignKey(Trader, on_delete=models.CASCADE, related_name="owner")
+    status_date = models.DateField()
+    contained_items = models.ManyToManyField(TradeItem)
+
+    class Meta:
+        ordering = ("-status_date",)

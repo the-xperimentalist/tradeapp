@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './screens/home.dart';
+import './screens/trade.dart';
 
 void main() => runApp(const MyApp());
 
@@ -28,16 +30,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
+    Home(),
+    Trade(),
     Text(
-      'This is home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
+      'Under Development',
       style: optionStyle,
     ),
   ];
