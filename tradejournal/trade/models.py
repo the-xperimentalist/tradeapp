@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import Trader
+from trade.utils.constants import TradeSheetConstants
 
 
 class TradeSheet(models.Model):
@@ -16,6 +17,7 @@ class TradeSheet(models.Model):
     sheet_name = models.CharField(max_length=255, blank=False, null=False)
     uploaded_by = models.ForeignKey(Trader, on_delete=models.CASCADE, related_name="sheet_uploader")
     upload_type = models.IntegerField(default=3, choices=UPLOADED_BROKERS)
+    raw_file = models.FileField(upload_to=TradeSheetConstants.SHEET_LOCATION)
 
     class Meta:
         ordering = ("-uploaded_at", )
@@ -24,9 +26,9 @@ class TradeSheet(models.Model):
 class TradeItem(models.Model):
     """
     """
-    symbol = models.CharField(max_length=8, null=False)
+    symbol = models.CharField(max_length=32, null=False)
     quantity = models.IntegerField()
-    price = models.IntegerField()
+    price = models.FloatField()
 
 
 class Trade(models.Model):
@@ -61,6 +63,9 @@ class Trade(models.Model):
 
     class Meta:
         ordering = ("-created_at", )
+
+    def __str__(self) -> str:
+        return f"{self.trade_item.symbol}|{self.trade_item.quantity}|{self.trade_item.price}"
 
 
 class PortfolioStatus(models.Model):

@@ -104,5 +104,4 @@ class Trader(AbstractBaseUser, PermissionsMixin):
     def token(self):
         token = jwt.encode({'username': self.username, "email": self.email, "exp": datetime.utcnow() + timedelta(hours=24)},
             settings.SECRET_KEY, algorithm='HS256')
-        # print(t)
         return token
