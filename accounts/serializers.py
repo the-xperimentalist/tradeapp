@@ -22,6 +22,6 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trader
-        fields = ('email', 'password', 'token')
+        fields = ('email', 'password', 'token', 'username')
         # read_only_fields = ['token']
 

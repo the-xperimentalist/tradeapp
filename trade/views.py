@@ -18,7 +18,7 @@ class ListCreateTradeAPI(ListCreateAPIView):
     serializer_class = TradeSerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['id', 'trade_symbol', 'related_trade_sheet', 'trade_in', 'trade_out']
+    # filterset_fields = ['id', 'trade_symbol', 'related_trade_sheet', 'trade_in', 'trade_out']
     search_fields = ['trade_symbol']
     ordering_fields = ['trade_in', 'trade_out']
 

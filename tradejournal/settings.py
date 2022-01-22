@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-i-i3t_nm49lg1rz_i)g_#9hgqjod$#rz8%w)!evizwaz(y%xvr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '10.0.2.2',
+    'localhost'
+]
 
 AUTH_USER_MODEL = "accounts.Trader"
 
@@ -136,3 +139,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS_ORIGIN_WHITELIST = (
+#     '10.0.2.2:8000'
+# )
