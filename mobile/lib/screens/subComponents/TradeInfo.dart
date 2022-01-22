@@ -33,15 +33,6 @@ class _TradeInfoState extends State<TradeInfo> {
               ).toList(),
             ),
           ),
-          // Padding(
-          // padding: EdgeInsets.symmetric(horizontal: 10),
-          // child: ListView.builder(
-          // physics: BouncingScrollPhysics(),
-          // itemCount: TRADE_DATA.length,
-          // itemBuilder: (context, index) {
-          //   return TradeInfoItem(itemData: TRADE_DATA[index]);
-          // }),
-          // )
         ],
       );
   }

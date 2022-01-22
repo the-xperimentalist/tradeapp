@@ -9,7 +9,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trader
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'email', 'password', 'token')
 
     def create(self, validated_data):
         return Trader.objects.create_user(**validated_data)

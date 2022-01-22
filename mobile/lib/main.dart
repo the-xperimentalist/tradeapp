@@ -2,6 +2,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/HomePage.dart';
+import 'package:mobile/screens/LoginPage.dart';
 import 'package:mobile/utils/constants.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         textTheme: screenWidth < 500 ? TEXT_THEME_SMALL : TEXT_THEME_DEFAULT,
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: LoginPage(),
     );
   }
 }

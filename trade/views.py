@@ -56,7 +56,12 @@ class HomePageAPI(APIView):
         calculated_ratios = Computations.calculate_win_ratio(
             query_time, self.request.user)
         return Response({"username": self.request.user.username,
-            "wins": calculated_ratios["wins"], "losses": calculated_ratios["losses"]})
+            "wins": calculated_ratios["wins"], "losses": calculated_ratios["losses"],
+            "total": calculated_ratios["wins"] + calculated_ratios["losses"],
+            "biggestLossAmount": calculated_ratios["largest_loss"],
+            "biggestLossSymbol": calculated_ratios["largest_loss_symbol"],
+            "Profit/Loss": calculated_ratios["pnl"],
+            "pnl": calculated_ratios["pnl_type"]})
 
 
 class TradeSheetUploadAPI(APIView):

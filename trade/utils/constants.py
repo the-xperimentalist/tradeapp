@@ -8,9 +8,9 @@ class RangeTime:
     WEEK = 1
     MONTH = 2
     TIME_MAPPING = {
-        DAY: timedelta(hours=24),
-        WEEK: timedelta(days=7),
-        MONTH: timedelta(days=30)
+        DAY: 10,
+        WEEK: 100,
+        MONTH: 1000
     }
 
 

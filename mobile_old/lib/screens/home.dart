@@ -40,11 +40,6 @@ class _HomePageState extends State<Home> {
     }
   }
 
-  // @override
-  // void didUpdateWidget(Widget oldWidget) {
-  //   if (oldWidget.noOfWins !=)
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Column(

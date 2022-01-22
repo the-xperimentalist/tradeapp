@@ -1,11 +1,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile/common/BorderBox.dart';
+import 'package:mobile/screens/LoginPage.dart';
 import 'package:mobile/screens/subComponents/AddTradeButton.dart';
 import 'package:mobile/screens/subComponents/MainInfo.dart';
 import 'package:mobile/screens/subComponents/TradeInfo.dart';
+import 'package:mobile/utils/ClassTypes.dart';
+import 'package:mobile/utils/TradeData.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:mobile/utils/widget_function.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -18,6 +22,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late SharedPreferences sharedPreferences;
+  dynamic tradeWinInfo = TRADE_WIN_INFO;
+  dynamic tradeData = TRADE_DATA;
+
+  checkLoginAndFetchData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    print(sharedPreferences.getString("token"));
+    print(sharedPreferences.getString("token").runtimeType);
+    if (sharedPreferences.getString("token") == null) {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+          builder: (BuildContext context) => LoginPage()), (route) => false);
+    }
+    else if (sharedPreferences.getString("token") != "-1") {
+
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginAndFetchData();
+  }
 
   static Route<Object?> _dialogBuilder(
       BuildContext context, Object? arguments) {
@@ -45,8 +71,14 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               children: [
                 DrawerHeader(child: Container(color: Colors.red,)),
-                ListTile(title: Text("Profile"),),
-                ListTile(title: Text("Log Out"),),
+                ListTile(title: Text("Profile", style: themeData.textTheme.headline4,),),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                        builder: (BuildContext context) => LoginPage()), (route) => false);
+                  },
+                  child: ListTile(title: Text("Log Out", style: themeData.textTheme.headline4,),)
+                ),
                 Divider(thickness: 2,)
               ],
             ),
