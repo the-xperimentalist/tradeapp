@@ -73,14 +73,12 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = false;
       });
-      print(response.body);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Unable to register")));
     }
   }
 
   skipLogin() async {
-    print("Here");
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("token", "-1");
     sharedPreferences.setString("username", "Test User");
@@ -97,7 +95,6 @@ class _LoginPageState extends State<LoginPage> {
     };
     var jsonResponse = null;
     var response = await http.post(Uri.parse("http://10.0.2.2:8000/api/accounts/login/"), body: data);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if (jsonResponse != null) {
@@ -113,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = false;
       });
-      print(response.body);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Invalid credentials")));
     }
@@ -129,9 +125,6 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [FlatButton(
         onPressed: () {
-          print(emailController.text);
-          print(passwordController.text);
-          print(usernameController.text);
           if (emailController.text == "" || passwordController.text == "" || usernameController.text == "") {
             return;
           }

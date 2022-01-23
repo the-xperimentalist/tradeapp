@@ -2,8 +2,8 @@
 import pandas as pd
 from datetime import datetime
 from django_filters.rest_framework import DjangoFilterBackend
-from trade.serializers import TradeSerializer
-from trade.models import Trade, TradeSheet, TradeItem
+from trade.serializers import PortfolioSerializer, TradeSerializer
+from trade.models import PortfolioStatus, Trade, TradeSheet, TradeItem
 from trade.utils.constants import RangeTime, TradeSheetConstants
 from trade.utils.computations import Computations
 from rest_framework import filters, status
@@ -39,6 +39,15 @@ class TradeDetailAPI(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Trade.objects.filter(exec_trader=self.request.user)
 
+class ListCreatePortfolioAPI(ListCreateAPIView):
+    serializer_class = PortfolioSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ['status_date']
+
+    def get_queryset(self):
+        return PortfolioStatus.objects.filter(related_trader=self.request.user)
+
 
 class HomePageAPI(APIView):
     """
@@ -49,12 +58,12 @@ class HomePageAPI(APIView):
         """
         The given API shows the details for the home page
         """
-        print(RangeTime.TIME_MAPPING)
-        print(self.kwargs)
         query_time = RangeTime.TIME_MAPPING[int(self.kwargs["queryTime"])]
-        print(query_time)
+        trades_to_consider = Trade.objects.filter(
+            exec_trader=self.request.user)[:query_time] if query_time != 1000 else Trade.objects.filter(
+                exec_trader=self.request.user)
         calculated_ratios = Computations.calculate_win_ratio(
-            query_time, self.request.user)
+            self.request.user, trades_to_consider)
         return Response({"username": self.request.user.username,
             "wins": calculated_ratios["wins"], "losses": calculated_ratios["losses"],
             "total": calculated_ratios["wins"] + calculated_ratios["losses"],
@@ -73,10 +82,8 @@ class TradeSheetUploadAPI(APIView):
         """
         """
         sheets = request.FILES.getlist("trade_sheets")
-        # print(sheet)
         for sheet in sheets:
             df_sheet = pd.read_csv(sheet)
-            print(df_sheet)
             sheet_instance = TradeSheet(
                 uploaded_at=datetime.utcnow(), sheet_name=sheet.name,
                 uploaded_by=self.request.user
@@ -97,5 +104,9 @@ class TradeSheetUploadAPI(APIView):
                 related_trade_sheet=sheet_instance,
                 exec_trader=self.request.user)
                 trade.save()
+
+        trades_to_consider = Trade.objects.filter(related_trade_sheet=sheet_instance)
+        portfolio_saved = Computations.calculate_win_ratio(
+            self.request.user, trades_to_consider, True)
 
         return Response(status=status.HTTP_200_OK)

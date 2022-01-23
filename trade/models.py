@@ -74,7 +74,10 @@ class PortfolioStatus(models.Model):
     """
     related_trader = models.ForeignKey(Trader, on_delete=models.CASCADE, related_name="owner")
     status_date = models.DateField()
-    contained_items = models.ManyToManyField(TradeItem)
+    contained_item = models.ForeignKey(TradeItem, on_delete=models.SET_NULL, null=True) # The value will contain tradeitem for buy price and sold quantity
+    exit_price = models.FloatField()
+    remaining_quantity = models.IntegerField()
+    net_profit = models.FloatField()
 
     class Meta:
         ordering = ("-status_date",)

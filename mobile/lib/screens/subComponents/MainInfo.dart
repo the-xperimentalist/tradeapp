@@ -52,7 +52,7 @@ class _MainInfoState extends State<MainInfo> {
             jsonResponse['profitLoss'],
             jsonResponse['pnl']);
         setState(() {
-          _tradeWinInfo = _tradeWinInfo;
+          _tradeWinInfo = tradeWinInfo;
         });
       }
     }
@@ -105,7 +105,7 @@ class _MainInfoState extends State<MainInfo> {
                 selected: _selectedTimeRange == 0,
                 type: 0),
                 ChoiceOption(
-                    text: "50",
+                    text: "100",
                     onTap: () {
                       setState(() {
                         _selectedTimeRange = 1;

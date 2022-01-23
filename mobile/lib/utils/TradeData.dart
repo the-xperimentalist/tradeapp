@@ -2,42 +2,42 @@ const TRADE_DATA = [
   {
     "id": 1,
     "symbol": "XYZ",
-    "entryPrice": 100,
-    "exitPrice": 105,
-    "exitQuantity": 10,
-    "remainingQuantity": 10,
-    "date": "2021-1-4",
-    "profit/loss": 5
+    "entry_price": 100,
+    "exit_price": 105,
+    "exit_quantity": 10,
+    "remaining_quantity": 10,
+    "status_date": "2021-1-4",
+    "net_profit": 5
   },
   {
     "id": 2,
     "symbol": "XYZ",
-    "entryPrice": 100,
-    "exitPrice": 105,
-    "exitQuantity": 10,
-    "remainingQuantity": 10,
-    "date": "2021-1-3",
-    "profit/loss": 5
+    "entry_price": 100,
+    "exit_price": 105,
+    "exit_quantity": 10,
+    "remaining_quantity": 10,
+    "status_date": "2021-1-3",
+    "net_profit": 5
   },
   {
     "id": 3,
     "symbol": "XYZ",
-    "entryPrice": 100,
-    "exitPrice": 105,
-    "exitQuantity": 10,
-    "remainingQuantity": 10,
-    "date": "2021-1-2",
-    "profit/loss": 5
+    "entry_price": 100,
+    "exit_price": 105,
+    "exit_quantity": 10,
+    "remaining_quantity": 10,
+    "status_date": "2021-1-2",
+    "net_profit": 5
   },
   {
     "id": 4,
     "symbol": "XYZ",
-    "entryPrice": 100,
-    "exitPrice": 105,
-    "exitQuantity": 10,
-    "remainingQuantity": 10,
-    "date": "2021-1-1",
-    "profit/loss": 5
+    "entry_price": 100,
+    "exit_price": 105,
+    "exit_quantity": 10,
+    "remaining_quantity": 10,
+    "status_date": "2021-1-1",
+    "net_profit": 5
   }
 ];
 
@@ -49,7 +49,7 @@ const TRADE_WIN_INFO = [
     "total": 20,
     "biggestLossAmount": 100,
     "biggestLossSymbol": "XYZ",
-    "Profit/Loss": 35,
+    "net_profit": 35,
     "pnl": "profit"
   },
   {
@@ -59,7 +59,7 @@ const TRADE_WIN_INFO = [
     "total": 90,
     "biggestLossAmount": 200,
     "biggestLossSymbol": "XYZ",
-    "Profit/Loss": 25,
+    "net_profit": 25,
     "pnl": "loss"
   },
   {
@@ -69,7 +69,7 @@ const TRADE_WIN_INFO = [
     "total": 180,
     "biggestLossAmount": 120,
     "biggestLossSymbol": "XYZ",
-    "Profit/Loss": 5,
+    "net_profit": 5,
     "pnl": "profit"
   }
 ];

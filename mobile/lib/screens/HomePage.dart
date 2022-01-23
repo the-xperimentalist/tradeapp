@@ -28,8 +28,6 @@ class _HomePageState extends State<HomePage> {
 
   checkLoginAndFetchData() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    print(sharedPreferences.getString("token"));
-    print(sharedPreferences.getString("token").runtimeType);
     if (sharedPreferences.getString("token") == null) {
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
           builder: (BuildContext context) => LoginPage()), (route) => false);
@@ -71,9 +69,10 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               children: [
                 DrawerHeader(child: Container(color: Colors.red,)),
-                ListTile(title: Text("Profile", style: themeData.textTheme.headline4,),),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async{
+                    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                    await sharedPreferences.clear();
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
                         builder: (BuildContext context) => LoginPage()), (route) => false);
                   },
