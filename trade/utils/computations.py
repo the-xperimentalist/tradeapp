@@ -1,6 +1,5 @@
 
 import math
-from datetime import datetime
 from statistics import quantiles
 from time import time
 from trade.models import PortfolioStatus, Trade, TradeItem
@@ -14,12 +13,8 @@ class Computations:
         Calculate the win ratio for the trader in the selected time range
         # Refactor this code
         """
-        curr_datetime = datetime.utcnow()
-        # portfolio_before = PortfolioStatus.objects.filter(
-        #     related_trader = trader, status_date__lte=(curr_datetime - time_range)
-        # ).first()
-        # portfolio_trade_items = portfolio_before.contained_items.all()
-        wins = losses = 0
+        wins = 0
+        losses = 0
         largest_loss = 0
         largest_loss_symbol = ""
         symbols = {}
@@ -48,14 +43,6 @@ class Computations:
                             "price": new_symbol_price
                         }
                     }
-                # if trade.trade_item.symbol not in symbols:
-                #     symbols[trade.trade_item.symbol] = [{
-                #         "trade_item": {"symbol": trade.trade_item.symbol, "quantity": trade.trade_item.quantity,
-                #         "price": trade.trade_item.price}, "time": trade.time}]
-                # else:
-                #     symbols[trade.trade_item.symbol].append({"trade_item": {
-                #         "symbol": trade.trade_item.symbol, "quantity": trade.trade_item.quantity,
-                #         "price": trade.trade_item.price}, "time": trade.time})
             elif trade.trade_type == Trade.SELL:
                 sold_quantity = trade.trade_item.quantity
 
@@ -119,32 +106,6 @@ class Computations:
                         )
                         status.save()
 
-                # for buy_val in symbols[trade.trade_item.symbol]:
-                #     if buy_val["trade_item"]["quantity"] == 0:
-                #         continue
-                #     if buy_val["trade_item"]["quantity"] > sold_quantity:
-                #         if buy_val["trade_item"]["price"] > trade.trade_item.price:
-                #             losses += sold_quantity
-                #             net_change -= sold_quantity * trade.trade_item.price
-                #             if (buy_val["trade_item"]["price"] - trade.trade_item.price) > largest_loss:
-                #                 largest_loss = buy_val["trade_item"]["price"] - trade.trade_item.price
-                #                 largest_loss_symbol = trade.trade_item.symbol
-                #         else:
-                #             wins += sold_quantity
-                #             net_change += sold_quantity * trade.trade_item.price
-                #         buy_val["trade_item"]["quantity"] = buy_val["trade_item"]["quantity"] - sold_quantity
-                #     else:
-                #         if buy_val["trade_item"]["price"] > trade.trade_item.price:
-                #             losses += buy_val["trade_item"]["quantity"]
-                #             net_change -= sold_quantity * trade.trade_item.price
-                #             if (buy_val["trade_item"]["price"] - trade.trade_item.price) > largest_loss:
-                #                 largest_loss = buy_val["trade_item"]["price"] - trade.trade_item.price
-                #                 largest_loss_symbol = trade.trade_item.symbol
-                #         else:
-                #             wins += buy_val["trade_item"]["quantity"]
-                #             net_change += sold_quantity * trade.trade_item.price
-                #         sold_quantity -= buy_val["trade_item"]["quantity"]
-                #         buy_val["trade_item"]["quantity"] = 0
         return {
             "wins": wins,
             "losses": losses,

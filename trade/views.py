@@ -67,7 +67,7 @@ class HomePageAPI(APIView):
         return Response({"username": self.request.user.username,
             "wins": calculated_ratios["wins"], "losses": calculated_ratios["losses"],
             "total": calculated_ratios["wins"] + calculated_ratios["losses"],
-            "biggestLossAmount": calculated_ratios["largest_loss"],
+            "biggestLossAmount": float(calculated_ratios["largest_loss"]),
             "biggestLossSymbol": calculated_ratios["largest_loss_symbol"],
             "Profit/Loss": calculated_ratios["pnl"],
             "pnl": calculated_ratios["pnl_type"]})

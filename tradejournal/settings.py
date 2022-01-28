@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '10.0.2.2',
-    'localhost'
+    'localhost',
+    '52.234.225.63'
 ]
 
 AUTH_USER_MODEL = "accounts.Trader"

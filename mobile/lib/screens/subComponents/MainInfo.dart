@@ -49,7 +49,7 @@ class _MainInfoState extends State<MainInfo> {
             jsonResponse['total'],
             jsonResponse['biggestLossAmount'],
             jsonResponse['biggestLossSymbol'],
-            jsonResponse['profitLoss'],
+            jsonResponse['Profit/Loss'],
             jsonResponse['pnl']);
         setState(() {
           _tradeWinInfo = tradeWinInfo;

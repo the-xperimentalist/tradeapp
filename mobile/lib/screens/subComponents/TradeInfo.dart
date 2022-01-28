@@ -39,8 +39,9 @@ class _TradeInfoState extends State<TradeInfo> {
       });
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
+        List<PortfolioTrade> newList = <PortfolioTrade>[];
         for (var obj in jsonResponse) {
-          _portfolioTradeList.add(PortfolioTrade(
+          newList.add(PortfolioTrade(
               obj['id'],
               obj['symbol'],
           obj['entry_price'],
@@ -50,6 +51,9 @@ class _TradeInfoState extends State<TradeInfo> {
               obj['net_profit'], obj['status_date']
           ));
         }
+        setState(() {
+          _portfolioTradeList = newList;
+        });
       }
     }
   }
