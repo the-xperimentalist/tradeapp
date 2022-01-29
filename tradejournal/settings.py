@@ -95,9 +95,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tradeapp',
         'USER': 'tradeuser',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': ''
+        'PASSWORD': 'password@1',
+        'HOST': 'tradeappuser.postgres.database.azure.com',
+        'PORT': '5432'
     }
 }
 
