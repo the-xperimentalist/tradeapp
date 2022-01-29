@@ -26,9 +26,7 @@ SECRET_KEY = 'django-insecure-i-i3t_nm49lg1rz_i)g_#9hgqjod$#rz8%w)!evizwaz(y%xvr
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '10.0.2.2',
-    'localhost',
-    '52.234.225.63'
+    '*'
 ]
 
 AUTH_USER_MODEL = "accounts.Trader"
