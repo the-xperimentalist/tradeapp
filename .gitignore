@@ -538,3 +538,7 @@ fabric.properties
 ### Constants
 
 trade_sheets/
+
+## Azure constants
+
+.azure/

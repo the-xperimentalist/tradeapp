@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -93,15 +94,16 @@ REST_FRAMEWORK={
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tradeapp',
-        'USER': 'tradeuser@tradeappuser',
-        'PASSWORD': 'password@1',
-        'HOST': 'tradeappuser.postgres.database.azure.com',
-        'PORT': '5432',
-        'OPTIONS': {'sslmode': 'require'}
+        'NAME': os.environ.get('DATABASE_NAME', 'tradeapp'),
+        'USER': os.environ.get('DATABASE_USER', 'myadmin'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'ThisIs4P4ssw0rd!=1'),
+        'HOST': os.environ.get('DATABASE_HOST', 'tradepgserver.postgres.database.azure.com'),
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
