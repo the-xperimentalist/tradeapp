@@ -97,7 +97,8 @@ DATABASES = {
         'USER': 'tradeuser@tradeappuser',
         'PASSWORD': 'password@1',
         'HOST': 'tradeappuser.postgres.database.azure.com',
-        'PORT': '5432'
+        'PORT': '5432',
+        'OPTIONS': {'sslmode': 'require'}
     }
 }
 
