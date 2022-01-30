@@ -1,4 +1,5 @@
 
+import logging
 from django.contrib.auth import authenticate
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
