@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:mobile/common/BorderBox.dart';
 import 'package:mobile/screens/LoginPage.dart';
 import 'package:mobile/screens/subComponents/AddTradeButton.dart';
@@ -41,6 +44,26 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     checkLoginAndFetchData();
+  }
+
+  uploadTradeSheets() async {
+    var request = http.MultipartRequest("POST", Uri.parse("https://thewisetraders.azurewebsites.net/api/trades/sheet_upload/"));
+    var result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      var file = result.files.single;
+      request.files.add(new http.MultipartFile("trade_sheets",
+          file.readStream!, file.size, filename: file.name ));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Successfully uploaded sheet!")));
+      }
+      else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Upload failed!")));
+      }
+    }
   }
 
   static Route<Object?> _dialogBuilder(
@@ -108,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                     addVerticalSpace(padding),
                     Padding(padding: sidePadding,
                     child: Text(
-                      "Trade Journal",
+                      "The Wise Traders",
                       style: themeData.textTheme.headline1,
                     ),
                     ),

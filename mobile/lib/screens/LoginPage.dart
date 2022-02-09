@@ -66,6 +66,9 @@ class _LoginPageState extends State<LoginPage> {
             MaterialPageRoute(builder: (BuildContext context) => HomePage()),
             (route) => false);
       }
+    } else if (response.statusCode == 403) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Website down!")));
     } else {
       setState(() {
         _isLoading = false;
@@ -100,6 +103,9 @@ class _LoginPageState extends State<LoginPage> {
         });
         sharedPreferences.setString("token", jsonResponse['token']);
         sharedPreferences.setString("username", jsonResponse['username']);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Signed In successfully!"))
+        );
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (BuildContext context) => HomePage()),
             (route) => false);
@@ -228,10 +234,21 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: EdgeInsets.only(top: 50),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      child: Text(
-        "Trade Journal",
-        style: TextStyle(
-            color: Colors.white70, fontSize: 40, fontWeight: FontWeight.bold),
+      child: Column(
+        children: [
+          Text(
+            "The Wise Traders",
+            style: TextStyle(
+              color: Colors.white70, fontSize: 40, fontWeight: FontWeight.bold
+            ),
+          ),
+          Text(
+            "Trade Journal",
+            style: TextStyle(
+              color: Colors.white24, fontSize: 24, fontWeight: FontWeight.normal
+            ),
+          )
+        ],
       ),
     );
   }
