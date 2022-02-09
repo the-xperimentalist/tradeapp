@@ -165,7 +165,8 @@ class _HomePageState extends State<HomePage> {
                             text: "Upload Sheet",
                             width: size.width * 0.45,
                             onPressed: (){
-                              Navigator.of(context).restorablePush(_dialogBuilder);
+                              // Navigator.of(context).restorablePush(_dialogBuilder);
+                              uploadTradeSheets();
                             },
                           ),
                         ))
