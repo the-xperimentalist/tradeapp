@@ -95,9 +95,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('DATABASE_NAME', 'tradeapp'),
-        'USER': os.environ.get('DATABASE_USER', 'myadmin'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'ThisIs4P4ssw0rd!=1'),
-        'HOST': os.environ.get('DATABASE_HOST', 'tradepgserver.postgres.database.azure.com'),
+        'USER': os.environ.get('DATABASE_USER', 'tradeuser'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
+        'HOST': os.environ.get('DATABASE_HOST', 'db'),
         'PORT': os.environ.get('DATABASE_PORT', '5432'),
         'OPTIONS': {
             'sslmode': 'require',
