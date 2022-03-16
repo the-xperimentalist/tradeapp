@@ -49,8 +49,7 @@ class _LoginPageState extends State<LoginPage> {
     Map data = {'email': email, 'password': pass, 'username': username};
     var jsonResponse = null;
     var response = await http.post(
-        Uri.parse(
-            "https://thewisetraders.azurewebsites.net/api/accounts/register/"),
+        Uri.parse("http://144.126.255.106/api/accounts/register/"),
         body: data);
     if (response.statusCode == 200 || response.statusCode == 201) {
       jsonResponse = json.decode(response.body);
@@ -92,8 +91,7 @@ class _LoginPageState extends State<LoginPage> {
     Map data = {'email': email, 'password': pass, 'username': username};
     var jsonResponse = null;
     var response = await http.post(
-        Uri.parse(
-            "https://thewisetraders.azurewebsites.net/api/accounts/login/"),
+        Uri.parse("http://144.126.255.106/api/accounts/login/"),
         body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
@@ -103,9 +101,8 @@ class _LoginPageState extends State<LoginPage> {
         });
         sharedPreferences.setString("token", jsonResponse['token']);
         sharedPreferences.setString("username", jsonResponse['username']);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Signed In successfully!"))
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Signed In successfully!")));
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (BuildContext context) => HomePage()),
             (route) => false);
@@ -239,14 +236,16 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             "The Wise Traders",
             style: TextStyle(
-              color: Colors.white70, fontSize: 40, fontWeight: FontWeight.bold
-            ),
+                color: Colors.white70,
+                fontSize: 40,
+                fontWeight: FontWeight.bold),
           ),
           Text(
             "Trade Journal",
             style: TextStyle(
-              color: Colors.white24, fontSize: 24, fontWeight: FontWeight.normal
-            ),
+                color: Colors.white24,
+                fontSize: 24,
+                fontWeight: FontWeight.normal),
           )
         ],
       ),
