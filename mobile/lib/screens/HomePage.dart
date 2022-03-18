@@ -20,19 +20,28 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+// GlobalKey<_TradeInfoState> globalKeyTrade = GlobalKey();
+
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late SharedPreferences sharedPreferences;
   dynamic tradeWinInfo = TRADE_WIN_INFO;
   dynamic tradeData = TRADE_DATA;
+  String token = '';
+  int parentStateChange = 0;
 
   checkLoginAndFetchData() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
+    String? tokenStr = sharedPreferences.getString("token");
+    if (tokenStr == null) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
           (route) => false);
-    } else if (sharedPreferences.getString("token") != "-1") {}
+    } else if (sharedPreferences.getString("token") != "-1") {
+      setState(() {
+        token = tokenStr;
+      });
+    }
   }
 
   @override
@@ -42,23 +51,44 @@ class _HomePageState extends State<HomePage> {
   }
 
   uploadTradeSheets() async {
+    Map<String, String> headers = {
+      'Authorization': 'Bearer ${token}'
+    };
     var request = http.MultipartRequest(
-        "POST", Uri.parse("http://144.126.255.106/api/trades/sheet_upload/"));
+        "POST", Uri.parse("${API_URL}api/trades/sheet_upload/"));
+    request.headers.addAll(headers);
     var result = await FilePicker.platform.pickFiles();
+    print("result here");
     if (result != null) {
+      print("Non-null result");
       var file = result.files.single;
-      request.files.add(new http.MultipartFile(
-          "trade_sheets", file.readStream!, file.size,
-          filename: file.name));
+      print(file);
+      print(file.readStream);
+      print(file.path);
+      // request.files.add(await http.MultipartFile(
+      //     "trade_sheets", file.readStream!, file.size,
+      //     filename: file.name));
+      request.files.add(await http.MultipartFile.fromPath("trade_sheets",
+          file.path!));
 
       var response = await request.send();
+      print("V1");
+      print(response.statusCode);
       if (response.statusCode == 200) {
+        print("V2");
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Successfully uploaded sheet!")));
+        setState(() {
+          parentStateChange = parentStateChange + 1;
+        });
       } else {
+        print("V3");
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Upload failed!")));
       }
+    }
+    else {
+      print("Null res");
     }
   }
 

@@ -33,7 +33,7 @@ class _MainInfoState extends State<MainInfo> {
       var jsonResponse = null;
       var response = await http.get(
           Uri.parse(
-              "https://thewisetraders.azurewebsites.net/api/trades/home/${selectedIndex}"),
+              "${API_URL}api/trades/home/${selectedIndex}"),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',

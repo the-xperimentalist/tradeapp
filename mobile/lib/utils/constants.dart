@@ -6,6 +6,7 @@ const COLOR_GREY = Color.fromRGBO(141, 141, 141, 1.0);
 
 const COLOR_WHITE = Colors.white;
 const COLOR_DARK_BLUE = Color.fromRGBO(20, 25, 45, 1.0);
+const API_URL = "http://139.59.52.27:8080/";
 
 const TextTheme TEXT_THEME_DEFAULT = TextTheme(
     headline1: TextStyle(

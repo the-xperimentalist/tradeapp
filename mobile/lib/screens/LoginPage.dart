@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -20,7 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -48,8 +48,9 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {'email': email, 'password': pass, 'username': username};
     var jsonResponse = null;
+    print("Here");
     var response = await http.post(
-        Uri.parse("http://144.126.255.106/api/accounts/register/"),
+        Uri.parse('${API_URL}api/accounts/register/'),
         body: data);
     if (response.statusCode == 200 || response.statusCode == 201) {
       jsonResponse = json.decode(response.body);
@@ -91,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
     Map data = {'email': email, 'password': pass, 'username': username};
     var jsonResponse = null;
     var response = await http.post(
-        Uri.parse("http://144.126.255.106/api/accounts/login/"),
+        Uri.parse("${API_URL}api/accounts/login/"),
         body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
@@ -131,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                   usernameController.text == "") {
                 return;
               }
+              print("Sign In");
               setState(() {
                 _isLoading:
                 true;
@@ -150,6 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                   usernameController.text == "") {
                 return;
               }
+              print("Register");
               setState(() {
                 _isLoading:
                 true;
