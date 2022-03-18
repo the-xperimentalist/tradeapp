@@ -86,7 +86,17 @@ class _TradeInfoState extends State<TradeInfo> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Your trades: ", style: themeData.textTheme.headline3),
+            Column(
+              children: [
+                Text("Your trades: ", style: themeData.textTheme.headline3,),
+                GestureDetector(
+                  child: Icon(Icons.refresh),
+                  onTap: () {
+                    fetchPortfolioTrades();
+                  },
+                )
+              ],
+            )
           ],
         ),
         addVerticalSpace(10),

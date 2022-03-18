@@ -124,7 +124,16 @@ class _MainInfoState extends State<MainInfo> {
                       fetchWinInfo(2);
                     },
                     selected: _selectedTimeRange == 2,
-                    type: 2)
+                    type: 2),
+                ChoiceOption(
+                    text: "Re",
+                    onTap: () {
+                      setStateVars();
+                      setState(() {
+                        _selectedTimeRange = 0;
+                      });
+                      fetchWinInfo(0);
+                    }, selected: false, type: 3)
               ],
             ),
           ),
