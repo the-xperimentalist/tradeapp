@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile/utils/ClassTypes.dart';
 import 'package:mobile/utils/TradeData.dart';
+import 'package:mobile/utils/constants.dart';
 import 'package:mobile/utils/widget_function.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+// final GlobalKey<_TradeInfoState> _tradeInfoState = GlobalKey<_TradeInfoState>();
 
 class TradeInfo extends StatefulWidget {
   const TradeInfo({Key? key}) : super(key: key);
@@ -17,6 +20,11 @@ class TradeInfo extends StatefulWidget {
 class _TradeInfoState extends State<TradeInfo> {
   late SharedPreferences sharedPreferences;
   List<PortfolioTrade> _portfolioTradeList = <PortfolioTrade>[];
+  int defaultValue = 1;
+
+  // useEffect(() {
+  //
+  // }, [this.parentState])
 
   @override
   void initState() {
@@ -25,17 +33,22 @@ class _TradeInfoState extends State<TradeInfo> {
   }
 
   fetchPortfolioTrades() async {
-
     sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString("token");
+    print("token");
+    print(token);
     if (token != '-1') {
       var jsonResponse = null;
       var response = await http.get(
-          Uri.parse("http://10.0.2.2:8000/api/trades/portfolio/"),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ${token}'
+          Uri.parse(
+              "${API_URL}api/trades/portfolio/"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ${token}'
+          });
+      setState(() {
+        defaultValue = 0;
       });
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
@@ -44,17 +57,22 @@ class _TradeInfoState extends State<TradeInfo> {
           newList.add(PortfolioTrade(
               obj['id'],
               obj['symbol'],
-          obj['entry_price'],
+              obj['entry_price'],
               obj['exit_price'],
-          obj['exit_quantity'],
-          obj['remaining_quantity'],
-              obj['net_profit'], obj['status_date']
-          ));
+              obj['exit_quantity'],
+              obj['remaining_quantity'],
+              obj['net_profit'],
+              obj['status_date']));
         }
         setState(() {
           _portfolioTradeList = newList;
         });
       }
+    }
+    else {
+      setState(() {
+        defaultValue = 1;
+      });
     }
   }
 
@@ -68,30 +86,42 @@ class _TradeInfoState extends State<TradeInfo> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Your trades: ", style: themeData.textTheme.headline3),
+            Column(
+              children: [
+                Text("Your trades: ", style: themeData.textTheme.headline3,),
+                GestureDetector(
+                  child: Icon(Icons.refresh),
+                  onTap: () {
+                    fetchPortfolioTrades();
+                  },
+                )
+              ],
+            )
           ],
         ),
-          addVerticalSpace(10),
-          SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: _portfolioTradeList.length==0 ? TRADE_DATA.map(
-                  (eachItemData) => TradeInfoItem(itemData: eachItemData)
-              ).toList() : _portfolioTradeList.map(
-                  (eachItemData) => TradeInfoItem(itemData: eachItemData.toJson())
-              ).toList(),
-            ),
+        addVerticalSpace(10),
+        SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: defaultValue == 1
+                ? TRADE_DATA
+                    .map(
+                        (eachItemData) => TradeInfoItem(itemData: eachItemData))
+                    .toList()
+                : _portfolioTradeList
+                    .map((eachItemData) =>
+                        TradeInfoItem(itemData: eachItemData.toJson()))
+                    .toList(),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }
 
 class TradeInfoItem extends StatelessWidget {
-  const TradeInfoItem({
-    Key? key,
-  required this.itemData}) : super(key: key);
+  const TradeInfoItem({Key? key, required this.itemData}) : super(key: key);
 
   final dynamic itemData;
 
@@ -99,37 +129,66 @@ class TradeInfoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return Container(
-      child: Column(
-        children: [
-          addVerticalSpace(10),
-          Text("Trade Date: ${itemData['status_date']}", style: themeData.textTheme.headline3,),
-          addVerticalSpace(10),
-          Text("Symbol: ${itemData['symbol']}"),
-          addVerticalSpace(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Entry Price: ", style: themeData.textTheme.bodyText1,),
-              Text("${itemData['entry_price']}", style: themeData.textTheme.bodyText1,),
-              Text("Exit Price:", style: themeData.textTheme.bodyText1,),
-              Text("${itemData['exit_price']}", style: themeData.textTheme.bodyText1,)
-            ],
-          ),
-          addVerticalSpace(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Sold Quantity: ", style: themeData.textTheme.bodyText1,),
-              Text("${itemData['exit_quantity']}", style: themeData.textTheme.bodyText1,),
-              Text("Remaining: ", style: themeData.textTheme.bodyText1,),
-              Text("${itemData['remaining_quantity']}", style: themeData.textTheme.bodyText1,)
-            ],
-          ),
-          addVerticalSpace(10),
-          Text("Net Profit: ${itemData['net_profit']}", style: themeData.textTheme.headline4,),
-          addVerticalSpace(20)
-        ],
-      )
-    );
+        child: Column(
+      children: [
+        addVerticalSpace(10),
+        Text(
+          "Trade Date: ${itemData['status_date']}",
+          style: themeData.textTheme.headline3,
+        ),
+        addVerticalSpace(10),
+        Text("Symbol: ${itemData['symbol']}"),
+        addVerticalSpace(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Entry Price: ",
+              style: themeData.textTheme.bodyText1,
+            ),
+            Text(
+              "${itemData['entry_price']}",
+              style: themeData.textTheme.bodyText1,
+            ),
+            Text(
+              "Exit Price:",
+              style: themeData.textTheme.bodyText1,
+            ),
+            Text(
+              "${itemData['exit_price']}",
+              style: themeData.textTheme.bodyText1,
+            )
+          ],
+        ),
+        addVerticalSpace(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Sold Quantity: ",
+              style: themeData.textTheme.bodyText1,
+            ),
+            Text(
+              "${itemData['exit_quantity']}",
+              style: themeData.textTheme.bodyText1,
+            ),
+            Text(
+              "Remaining: ",
+              style: themeData.textTheme.bodyText1,
+            ),
+            Text(
+              "${itemData['remaining_quantity']}",
+              style: themeData.textTheme.bodyText1,
+            )
+          ],
+        ),
+        addVerticalSpace(10),
+        Text(
+          "Net Profit: ${itemData['net_profit']}",
+          style: themeData.textTheme.headline4,
+        ),
+        addVerticalSpace(20)
+      ],
+    ));
   }
 }

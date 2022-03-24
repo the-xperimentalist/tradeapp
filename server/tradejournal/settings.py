@@ -91,17 +91,11 @@ REST_FRAMEWORK={
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DATABASE_NAME', 'tradeapp'),
-        'USER': os.environ.get('DATABASE_USER', 'myadmin'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'ThisIs4P4ssw0rd!=1'),
-        'HOST': os.environ.get('DATABASE_HOST', 'tradepgserver.postgres.database.azure.com'),
-        'PORT': os.environ.get('DATABASE_PORT', '5432'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        }
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
