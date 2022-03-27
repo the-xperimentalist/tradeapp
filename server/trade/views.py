@@ -2,13 +2,27 @@
 import pandas as pd
 from datetime import datetime
 from django_filters.rest_framework import DjangoFilterBackend
-from trade.serializers import PortfolioSerializer, TradeSerializer
-from trade.models import PortfolioStatus, Trade, TradeSheet, TradeItem
+from trade.serializers import (
+    PortfolioSerializer,
+    TradeSerializer,
+    IndexSymbolSerializer,
+    SymbolMarkSerializer
+    )
+from trade.models import (
+    PortfolioStatus,
+    Trade,
+    TradeSheet,
+    TradeItem,
+    IndexSymbol,
+    SymbolMark
+    )
 from trade.utils.constants import RangeTime, TradeSheetConstants
 from trade.utils.computations import Computations
 from rest_framework import filters, status
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+    )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
@@ -110,3 +124,15 @@ class TradeSheetUploadAPI(APIView):
             self.request.user, trades_to_consider, True)
 
         return Response(status=status.HTTP_200_OK)
+
+
+class IndexListAPI(ListAPIView):
+    """
+    """
+    serializer_class = IndexSymbolSerializer
+
+
+class SymbolMarkSerializer(ListAPIView):
+    """
+    """
+    serializer_class = SymbolMarkSerializer

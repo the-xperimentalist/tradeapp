@@ -81,3 +81,39 @@ class PortfolioStatus(models.Model):
 
     class Meta:
         ordering = ("-status_date",)
+
+
+class IndexSymbol(models.Model):
+    """
+    Index symbol for tracking support resistance
+    """
+    symbol = models.CharField(max_length=16, blank=False, null=False)
+
+    def __str__(self):
+        """
+        Change string text
+        """
+        return self.symbol
+
+    def __repr__(self):
+        """
+        Change representation symbol text
+        """
+        return self.symbol
+
+
+class SymbolMark(models.Model):
+    """
+    """
+
+    SUPPORT = 0
+    RESISTANCE = 1
+    MARK_TYPES = [
+        [SUPPORT, "SUPPORT"],
+        [RESISTANCE, "RESISTANCE"]
+        ]
+    index_symbol = models.ForeignKey(IndexSymbol, on_delete=models.CASCADE)
+    mark_type = models.IntegerField(choices=MARK_TYPES)
+    mark_start = models.DateField()
+    mark_end = models.DateField()
+    mark_value = models.FloatField(null=False)

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from trade.models import Trade, TradeSheet, PortfolioStatus
+from trade.models import Trade, TradeSheet, PortfolioStatus, IndexSymbol, SymbolMark
 
 
 class TradeSerializer(ModelSerializer):
@@ -18,3 +18,17 @@ class PortfolioSerializer(ModelSerializer):
     class Meta:
         model = PortfolioStatus
         fields = ('symbol', 'entry_price', 'exit_quantity', 'exit_price', 'remaining_quantity', 'net_profit', 'status_date', 'id')
+
+
+class IndexSymbolSerializer(ModelSerializer):
+
+    class Meta:
+        model = IndexSymbol
+        fields = ('__all__')
+
+
+class SymbolMarkSerializer(ModelSerializer):
+
+    class Meta:
+        model = SymbolMark
+        fields = ('__all__')
